@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.4.RELEASE'
+	id 'org.springframework.boot' version '2.3.0.M1'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 }
@@ -10,6 +10,8 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+
 }
 
 dependencies {
@@ -22,4 +24,9 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+wrapper {
+	gradleVersion = '6.0.1'
+	distributionType = Wrapper.DistributionType.ALL
 }
