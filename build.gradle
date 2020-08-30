@@ -1,12 +1,12 @@
 plugins {
 	id 'org.springframework.boot' version '2.3.3.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id "com.diffplug.spotless" version "5.3.0"
 	id 'java'
 }
 
 group = 'de.freitag.stefan'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -15,8 +15,9 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation ('org.springframework.boot:spring-boot-starter-thymeleaf',
+			'org.springframework.boot:spring-boot-starter-actuator',
+			'org.springframework.boot:spring-boot-starter-web')
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -29,4 +30,16 @@ test {
 wrapper {
 	gradleVersion = '6.6.1'
 	distributionType = Wrapper.DistributionType.ALL
+}
+
+spotless {
+	format 'misc', {
+		target '*.gradle', '.gitignore'
+		trimTrailingWhitespace()
+		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+		endWithNewline()
+	}
+	java {
+		googleJavaFormat('1.8')
+	}
 }
