@@ -1,8 +1,13 @@
-FROM amazoncorretto:11.0.6
-ENV ARTIFACT_VERSION=0.0.1-SNAPSHOT
-ENV ARTIFACT_NAME=helloWorldThymeleaf-$ARTIFACT_VERSION.jar
-ENV APP_HOME=/usr/app/
-WORKDIR $APP_HOME
-COPY build/libs/$ARTIFACT_NAME .
-CMD java -jar $ARTIFACT_NAME
+FROM gradle:jdk11 AS builder
+WORKDIR /home/root/build/
+COPY . .
+RUN gradle build -x test
+
+FROM openjdk:11-jre-slim
+RUN useradd --create-home --shell /bin/bash stefan
+WORKDIR /home/stefan
+COPY --from=builder /home/root/build/build/libs/*.jar /home/stefan/helloWorldThymeleaf.jar
+USER stefan
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/home/stefan/helloWorldThymeleaf.jar"]
+
 EXPOSE 8080

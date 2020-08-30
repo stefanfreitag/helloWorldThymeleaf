@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+
+  hello-world:
+    image:  stefanfreitag/hello-world-thymeleaf:0.0.2
+    environment:
+      - "SPRING_PROFILES_ACTIVE=development"
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "--silent", "localhost:8080/actuator/health 2>&1 | grep UP || exit 1" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    ports:
+      - "8080"
+    networks:
+      - backend
+networks:
+  backend:

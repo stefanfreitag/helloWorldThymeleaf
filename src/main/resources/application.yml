@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: staging
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: env, info, health
+---
+
+spring:
+  profiles: development
+
+---
+
+spring:
+  profiles: staging
+
+
+---
+
+spring:
+  profiles: production
